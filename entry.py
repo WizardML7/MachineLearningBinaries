@@ -67,6 +67,11 @@ def save_binary(blob, label, output_dir="C:/Users/loiac/PraetorianChallenges/Mac
         if not file_exists:
             writer.writeheader()
         writer.writerow(features)
+
+    # Remove the binary file after processing
+    os.remove(file_path)
+    logging.info(f"Removed binary file: {file_path}")
+
     logging.info(f"Updated features CSV with file: {file_path}, label: {label}")
 
 logging.basicConfig(level=logging.INFO,
@@ -125,13 +130,14 @@ class Server(object):
                   if self.ans != 'unknown':
                       save_binary(self.binary, self.ans)
                       self.log.info(f"Collected and saved binary with label: {self.ans}")
+                      time.sleep(.05)
 
 if __name__ == "__main__":
     # create the server object
     s = Server()
 
     # Call the data_collection method to collect and save binaries
-    num_files_to_collect = 10  # Example: Collect 100 files
+    num_files_to_collect = 10000  # Example: Collect 100 files
     s.data_collection(num_files_to_collect)
 
     # for _ in range(100):
